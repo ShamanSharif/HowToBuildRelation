@@ -3,6 +3,7 @@ using HowToBuildRelation.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HowToBuildRelation.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20231026092248_ManyToManyRelation")]
+    partial class ManyToManyRelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -90,7 +93,7 @@ namespace HowToBuildRelation.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Factions");
+                    b.ToTable("Faction");
                 });
 
             modelBuilder.Entity("HowToBuildRelation.Models.Weapon", b =>
@@ -112,7 +115,7 @@ namespace HowToBuildRelation.Migrations
 
                     b.HasIndex("CharacterId");
 
-                    b.ToTable("Weapons");
+                    b.ToTable("Weapon");
                 });
 
             modelBuilder.Entity("CharacterFaction", b =>
