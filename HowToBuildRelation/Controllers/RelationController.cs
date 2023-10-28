@@ -31,11 +31,33 @@ public class RelationController : ControllerBase
             Character = newCharacter
         };
 
+        var weapons = characterCreateDto.Weapons.Select(
+                w => new Weapon
+                {
+                    Name = w.Name, 
+                    Character = newCharacter
+                })
+            .ToList();
+
+        var factions = characterCreateDto.Factions.Select(
+                f => new Faction
+                {
+                    Name = f.Name,
+                    Characters = new List<Character> { newCharacter }
+                })
+            .ToList();
+
         newCharacter.Backpack = newBackpack;
+        newCharacter.Weapons = weapons;
+        newCharacter.Factions = factions;
 
         _context.Characters.Add(newCharacter);
         await _context.SaveChangesAsync();
 
-        return Ok(await _context.Characters.Include(c=> c.Backpack).ToListAsync());
+        return Ok(await _context.Characters
+                .Include(c=> c.Backpack)
+                .Include(c => c.Weapons)
+                .Include(c => c.Factions)
+            .ToListAsync());
     }
 }
